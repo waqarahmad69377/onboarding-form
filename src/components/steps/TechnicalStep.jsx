@@ -1,29 +1,17 @@
 import React, { useState } from 'react';
-
-const Section = ({ title, children }) => {
-  const [open, setOpen] = useState(true);
-  return (
-    <div className="mb-6">
-      <button
-        className="text-lg font-semibold underline flex items-center justify-between w-full"
-        onClick={() => setOpen(!open)}
-      >
-        {title} <span>{open ? '▲' : '▼'}</span>
-      </button>
-      {open && <div className="space-y-4 mt-2">{children}</div>}
-    </div>
-  );
-};
+import Section from '@/components/Section';
 
 const TechnicalStep = ({ data = {}, update, next, back }) => {
   const [errors, setErrors] = useState({});
 
   const handleChange = (e) => {
-    update({ [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    update({ ...data, [name]: value });
   };
 
   const handleRadioChange = (e) => {
-    update({ [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    update({ ...data, [name]: value });
   };
 
   const handleValidate = () => {
@@ -42,7 +30,7 @@ const TechnicalStep = ({ data = {}, update, next, back }) => {
       <h2 className="text-2xl font-bold mb-6">Technical Overview</h2>
 
       {/* 1. Current Systems */}
-      <Section title="1. Current Systems">
+      <Section id="currentSystem" title="1. Current Systems">
         <input
           name="domainProvider"
           placeholder="Domain Provider"
@@ -120,7 +108,7 @@ const TechnicalStep = ({ data = {}, update, next, back }) => {
       </Section>
 
       {/* 2. Analytics & Tracking */}
-      <Section title="2. Analytics & Tracking">
+      <Section id={"trackingAnalytics"} title="2. Analytics & Tracking">
         {['Google Analytics', 'Google Search Console', 'Google My Business', 'Google Tag Manager'].map((item) => {
           const name = item.replace(/\s+/g, '').toLowerCase();
           return (
@@ -174,10 +162,10 @@ const TechnicalStep = ({ data = {}, update, next, back }) => {
       </Section>
 
       <div className="flex justify-between mt-6">
-        <button onClick={back} className="btn bg-gray-400 text-white px-4 py-2 rounded">
+        <button onClick={back} className="btn bg-[#262626] rounded-full text-[#C3FC68] font-bold cursor-pointer hover:bg-[#C3FC68] hover:text-[#262626] px-10 py-2 rounded mt-4 transition-all duration-300">
           Back
         </button>
-        <button onClick={handleNext} className="btn bg-blue-600 text-white px-4 py-2 rounded">
+        <button onClick={handleNext} className="btn bg-[#C3FC68] rounded-full text-[#262626] font-bold cursor-pointer hover:bg-[#262626] hover:text-[#C3FC68] px-10 py-2 rounded mt-4 transition-all duration-300">
           Next
         </button>
       </div>

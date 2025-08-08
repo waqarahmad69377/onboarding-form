@@ -1,15 +1,11 @@
 import React, { useState } from 'react';
-
+import Section from "@/components/Section";
 const DigitalStep = ({ data = {}, update, next, back }) => {
   const [errors, setErrors] = useState({});
-  const [collapsed, setCollapsed] = useState({});
-
-  const toggleSection = (id) => {
-    setCollapsed(prev => ({ ...prev, [id]: !prev[id] }));
-  };
 
   const handleChange = (e) => {
-    update({ [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    update({ ...data, [name]: value });
   };
 
   const validate = () => {
@@ -23,45 +19,49 @@ const DigitalStep = ({ data = {}, update, next, back }) => {
     if (validate()) next();
   };
 
-  const Section = ({ id, title, children }) => (
-    <div className="mb-6 border border-gray-300 rounded p-4 bg-white/5">
-      <div
-        className="flex justify-between items-center cursor-pointer"
-        onClick={() => toggleSection(id)}
-      >
-        <h3 className="text-lg font-semibold">{title}</h3>
-        <span className="text-xl">{collapsed[id] ? '↓' : '↑'}</span>
-      </div>
-      {!collapsed[id] && <div className="mt-4 space-y-3">{children}</div>}
-    </div>
-  );
-
   return (
     <div>
       <h2 className="text-2xl font-bold mb-4">Digital Presence Overview</h2>
 
       {/* 1. Current Digital Assets */}
       <Section id="digitalAssets" title="1. Current Digital Assets">
-        <select
-          name="websitePlatform"
-          onChange={handleChange}
-          defaultValue={data.websitePlatform || ''}
-          className="input border p-2 rounded w-full"
-        >
-          <option value="">Select Website Platform</option>
-          <option value="WordPress">WordPress</option>
-          <option value="Squarespace">Squarespace</option>
-          <option value="Wix">Wix</option>
-          <option value="Custom">Custom</option>
-          <option value="None">None</option>
-        </select>
+        <div className='mb-4'>
+          <label className="block font-semibold mb-1">Website Platform <span>*</span></label>
+          <select
+            name="websitePlatform"
+            onChange={handleChange}
+            defaultValue={data.websitePlatform || ''}
+            className="input border p-2 rounded w-full text-[#000] bg-white"
+          >
+            <option value="">Select Website Platform</option>
+            <option value="WordPress">WordPress</option>
+            <option value="Squarespace">Squarespace</option>
+            <option value="Wix">Wix</option>
+            <option value="Custom">Custom</option>
+            <option value="None">None</option>
+          </select>
         {errors.websitePlatform && <p className="text-red-500 text-sm">{errors.websitePlatform}</p>}
-
-        <input name="facebook" placeholder="Facebook Business Page" value={data.facebook || ''} onChange={handleChange} className="input border p-2 rounded w-full" />
+        </div>
+        <div className='mb-4'>
+          <label className="block font-semibold mb-1">Facebook Business Page</label>
+          <input name="facebook" placeholder="Facebook Business Page" value={data.facebook || ''} onChange={handleChange} className="input border p-2 rounded w-full" />
+        </div>
+        <div className='mb-4'>
+          <label className="block font-semibold mb-1">Instagram Account</label>
         <input name="instagram" placeholder="Instagram Account" value={data.instagram || ''} onChange={handleChange} className="input border p-2 rounded w-full" />
+        </div>
+        <div className='mb-4'>
+          <label className="block font-semibold mb-1">LinkedIn Company Page</label>
         <input name="linkedin" placeholder="LinkedIn Company Page" value={data.linkedin || ''} onChange={handleChange} className="input border p-2 rounded w-full" />
-        <input name="youtube" placeholder="YouTube Channel" value={data.youtube || ''} onChange={handleChange} className="input border p-2 rounded w-full" />
+        </div>
+        <div className='mb-4'>
+          <label className="block font-semibold mb-1">YouTube Channel</label>
+          <input name="youtube" placeholder="YouTube Channel" value={data.youtube || ''} onChange={handleChange} className="input border p-2 rounded w-full" />
+        </div>
+        <div className='mb-4'>
+          <label className="block font-semibold mb-1">Other Social Media</label>
         <input name="otherSocial" placeholder="Other Social Media" value={data.otherSocial || ''} onChange={handleChange} className="input border p-2 rounded w-full" />
+        </div>
       </Section>
 
       {/* 2. Brand Assets */}
@@ -113,8 +113,8 @@ const DigitalStep = ({ data = {}, update, next, back }) => {
       </Section>
 
       <div className="flex justify-between mt-6">
-        <button onClick={back} className="btn bg-gray-300 text-black px-4 py-2 rounded">Back</button>
-        <button onClick={handleNext} className="btn bg-blue-600 text-white px-4 py-2 rounded">Next</button>
+        <button onClick={back} className="btn bg-[#262626] rounded-full text-[#C3FC68] font-bold cursor-pointer hover:bg-[#C3FC68] hover:text-[#262626] px-10 py-2 rounded mt-4 transition-all duration-300">Back</button>
+        <button onClick={handleNext} className="btn bg-[#C3FC68] rounded-full text-[#262626] font-bold cursor-pointer hover:bg-[#262626] hover:text-[#C3FC68] px-10 py-2 rounded mt-4 transition-all duration-300">Next</button>
       </div>
     </div>
   );

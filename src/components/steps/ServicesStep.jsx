@@ -1,38 +1,54 @@
 import React, { useState } from 'react';
-
-const Section = ({ title, children }) => {
-  const [open, setOpen] = useState(true);
-  return (
-    <div className="mb-6">
-      <button
-        className="text-lg font-semibold mb-2 underline"
-        onClick={() => setOpen(!open)}
-      >
-        {title} {open ? '▲' : '▼'}
-      </button>
-      {open && <div className="space-y-4">{children}</div>}
-    </div>
-  );
-};
+import Section from "@/components/Section";
 
 const ServicesStep = ({ data = {}, update, next, back, renderExtras }) => {
+  const [form, setForm] = useState(data || {});
   const services = data.services || {};
   const landing = services.landingPage || false;
 
   const handleCheckboxChange = (e) => {
     const { name, checked } = e.target;
     update({ services: { ...services, [name]: checked } });
+    setForm(prev => ({ ...prev, [name]: checked }));
   };
 
+  const renderCheckbox = (label, name , key) => (
+    <div className="flex items-center gap-2 mb-2" key={key}>
+      <label className="flex items-center cursor-pointer">
+        <input
+          type="checkbox"
+          name={name}
+          checked={form[name] || false}
+          onChange={handleCheckboxChange}
+          className="peer sr-only"
+        />
+        <span className="w-5 h-5 flex items-center justify-center border-2 border-[#969696] rounded transition-colors peer-checked:bg-[#C3FC68] peer-checked:border-[#C3FC68]">
+          {form[name] && (
+            <svg className="w-4 h-4 text-[#262626]" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+            </svg>
+          )}
+        </span>
+        <span className="ml-2">{label}</span>
+      </label>
+    </div>
+  );
+
   const handleInputChange = (e) => {
-    update({ [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    update({ ...data, [name]: value });
+    setForm(prev => ({ ...prev, [name]: val }));
   };
 
   return (
     <div>
       <h2 className="text-2xl font-bold mb-4">Service Selection</h2>
-
-      <label className="block mb-2">
+      <div className='flex flex-row gap-4 mb-4'>
+      {renderCheckbox("Landing Page Creation", "landingPage", "landingPage")}
+      {renderCheckbox("Sober Living Website", "soberLiving", "soberLiving")}
+      {renderCheckbox("AdWords Campaign Setup", "adwords", "adwords")}
+      </div>
+      {/* <label className="block mb-2">
         <input
           type="checkbox"
           name="landingPage"
@@ -63,11 +79,11 @@ const ServicesStep = ({ data = {}, update, next, back, renderExtras }) => {
           className="mr-2"
         />
         AdWords Campaign Setup
-      </label>
+      </label> */}
 
       {landing && (
         <>
-          <Section title="2. Content Requirements">
+          <Section id={"contentRequirement"} title="2. Content Requirements">
             <input name="headline" placeholder="Headline" value={data.headline || ''} onChange={handleInputChange} className="input border p-2 rounded w-full" />
             <input name="subheadline" placeholder="Subheadline" value={data.subheadline || ''} onChange={handleInputChange} className="input border p-2 rounded w-full" />
             <textarea name="keyBenefits" placeholder="Key Benefits (3-5 bullets)" value={data.keyBenefits || ''} onChange={handleInputChange} className="input border p-2 rounded w-full" rows={3} />
@@ -105,7 +121,7 @@ const ServicesStep = ({ data = {}, update, next, back, renderExtras }) => {
             </div>
           </Section>
 
-          <Section title="3. Design Preferences">
+          <Section id={"designPreferences"} title="3. Design Preferences">
             <input name="colorScheme" placeholder="Color Scheme" value={data.colorScheme || ''} onChange={handleInputChange} className="input border p-2 rounded w-full" />
             <label className="block font-semibold mt-2 mb-1">Mood/Feel:</label>
             {['Professional', 'Warm/Welcoming', 'Modern', 'Trustworthy', 'Hope-focused'].map((mood) => (
@@ -147,7 +163,7 @@ const ServicesStep = ({ data = {}, update, next, back, renderExtras }) => {
             ))}
           </Section>
 
-          <Section title="4. Conversion Tracking">
+          <Section id={"conversionTracking"} title="4. Conversion Tracking">
             <input name="submissionEmail" placeholder="Form Submission Email" value={data.submissionEmail || ''} onChange={handleInputChange} className="input border p-2 rounded w-full" />
             <input name="thankYouMessage" placeholder="Thank You Page Message" value={data.thankYouMessage || ''} onChange={handleInputChange} className="input border p-2 rounded w-full" />
             <textarea name="followUpProcess" placeholder="Follow-up Process" value={data.followUpProcess || ''} onChange={handleInputChange} className="input border p-2 rounded w-full" rows={3} />
@@ -159,7 +175,7 @@ const ServicesStep = ({ data = {}, update, next, back, renderExtras }) => {
       <div className="flex justify-between mt-6">
         <button
           onClick={back}
-          className="bg-gray-400 hover:bg-gray-500 text-white px-4 py-2 rounded"
+          className="btn bg-[#262626] rounded-full text-[#C3FC68] font-bold cursor-pointer hover:bg-[#C3FC68] hover:text-[#262626] px-10 py-2 rounded mt-4 transition-all duration-300"
         >
           Back
         </button>
@@ -167,7 +183,7 @@ const ServicesStep = ({ data = {}, update, next, back, renderExtras }) => {
           {renderExtras?.(services)}
           <button
             onClick={next}
-            className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded"
+            className="btn bg-[#C3FC68] rounded-full text-[#262626] font-bold cursor-pointer hover:bg-[#262626] hover:text-[#C3FC68] px-10 py-2 rounded mt-4 transition-all duration-300"
           >
             Next
           </button>

@@ -73,13 +73,13 @@ const ReviewStep = ({ data = {}, back, next }) => {
       <div className="flex justify-between mt-8">
         <button
           onClick={back}
-          className="bg-gray-400 hover:bg-gray-500 text-white px-4 py-2 rounded"
+          className="btn bg-[#262626] rounded-full text-[#C3FC68] font-bold cursor-pointer hover:bg-[#C3FC68] hover:text-[#262626] px-10 py-2 rounded mt-4 transition-all duration-300"
         >
           Back
         </button>
         <button
           onClick={next}
-          className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded"
+          className="btn bg-[#C3FC68] rounded-full text-[#262626] font-bold cursor-pointer hover:bg-[#262626] hover:text-[#C3FC68] px-10 py-2 rounded mt-4 transition-all duration-300"
         >
           Submit
         </button>

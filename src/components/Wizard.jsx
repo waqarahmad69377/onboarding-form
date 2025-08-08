@@ -191,13 +191,13 @@ const Wizard = () => {
   };
 
   return (
-    <div className="relative min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-purple-700 via-blue-800 to-black text-white">
-      <ThemeToggle />
+    <div className="relative min-h-screen flex flex-col items-center justify-center">
+      {/* <ThemeToggle /> */}
       <div className="w-full max-w-5xl mx-auto px-4">
         <ProgressBar currentStep={step} totalSteps={steps.length} />
         <Stepper currentStep={step} steps={steps} goToStep={setStep} allowFuture={false} />
         <motion.div
-          className="bg-white dark:bg-black bg-opacity-10 backdrop-blur-md shadow-2xl p-6 rounded-xl mt-6"
+          className="bg-[#262626] dark:bg-black bg-opacity-10 backdrop-blur-md shadow-2xl p-6 rounded-xl mt-6"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -20 }}

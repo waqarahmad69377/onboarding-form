@@ -1,19 +1,24 @@
 import React, { useState } from 'react';
-
+import Section from "@/components/Section";
+import { set } from 'react-hook-form';
 const EOSStep = ({ data = {}, update, next, back }) => {
   const [form, setForm] = useState(data || {});
-  const [collapsed, setCollapsed] = useState({});
-
-  const toggleSection = (key) => {
-    setCollapsed(prev => ({ ...prev, [key]: !prev[key] }));
-  };
-
+  const [errors, setErrors] = useState({});
+  
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     const val = type === 'checkbox' ? checked : value;
-    const updated = { ...form, [name]: val };
-    setForm(updated);
-    update(updated);
+    update({ ...data, [name]: val });
+    setForm(prev => ({ ...prev, [name]: val }));
+  };
+  const validate = () => {
+    const newErrors = {};
+    if (!form.yearsInOperation) newErrors.yearsInOperation = 'Years in operation is required';
+    if (!form.founders) newErrors.founders = 'Founders names are required';
+    if (!form.mission) newErrors.mission = 'Mission statement is required';
+    if (!form.purpose) newErrors.purpose = 'Purpose is required';
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
   };
 
   const renderInput = (label, name, type = 'text') => (
@@ -22,6 +27,7 @@ const EOSStep = ({ data = {}, update, next, back }) => {
       <input
         type={type}
         name={name}
+        placeholder={"Enter "+label}
         value={form[name] || ''}
         onChange={handleChange}
         className="w-full p-2 border rounded"
@@ -35,6 +41,7 @@ const EOSStep = ({ data = {}, update, next, back }) => {
       <textarea
         name={name}
         value={form[name] || ''}
+        placeholder='Enter your text here...'
         onChange={handleChange}
         className="w-full p-2 border rounded"
         rows={3}
@@ -44,23 +51,32 @@ const EOSStep = ({ data = {}, update, next, back }) => {
 
   const renderCheckbox = (label, name) => (
     <div className="flex items-center gap-2 mb-2">
-      <input type="checkbox" name={name} checked={form[name] || false} onChange={handleChange} />
-      <label>{label}</label>
+      <label className="flex items-center cursor-pointer">
+        <input
+          type="checkbox"
+          name={name}
+          checked={form[name] || false}
+          onChange={handleChange}
+          className="peer sr-only"
+        />
+        <span className="w-5 h-5 flex items-center justify-center border-2 border-[#969696] rounded transition-colors peer-checked:bg-[#C3FC68] peer-checked:border-[#C3FC68]">
+          {form[name] && (
+            <svg className="w-4 h-4 text-[#262626]" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+            </svg>
+          )}
+        </span>
+        <span className="ml-2">{label}</span>
+      </label>
     </div>
   );
 
-  const Section = ({ id, title, children }) => (
-    <div className="mb-8 border border-gray-300 rounded p-4 bg-white/5">
-      <div
-        className="flex justify-between items-center cursor-pointer"
-        onClick={() => toggleSection(id)}
-      >
-        <h3 className="text-lg font-semibold">{title}</h3>
-        <span className="text-xl">{collapsed[id] ? '↓' : '↑'}</span>
-      </div>
-      {!collapsed[id] && <div className="mt-4">{children}</div>}
-    </div>
-  );
+  // valide the form before proceeding
+  const handleNext = () => {
+    if (validate()) {
+      next();
+    }
+  };  
 
   return (
     <div>
@@ -78,14 +94,19 @@ const EOSStep = ({ data = {}, update, next, back }) => {
       <Section id="target" title="2. Target Market & Demographics">
         {renderTextArea('Primary Target Market', 'targetMarket')}
         <label className="block font-semibold mt-2 mb-1">Age Ranges Served:</label>
-        {['Adolescents', 'Young Adults', 'Adults', 'Seniors'].map((age) =>
-          renderCheckbox(`${age}`, `age_${age.replace(/\s+/g, '').toLowerCase()}`)
-        )}
+        <div className='flex flex-wrap gap-4 mb-2'>
+          {['Adolescents', 'Young Adults', 'Adults', 'Seniors'].map((age) =>
+            renderCheckbox(`${age}`, `age_${age.replace(/\s+/g, '').toLowerCase()}`)
+          )}
+        </div>
         <label className="block font-semibold mt-4 mb-1">Gender Programs:</label>
+        <div className='flex flex-wrap gap-4 mb-2'>
         {['Men-only', 'Women-only', 'Co-ed', 'LGBTQ+ specialized'].map((g) =>
           renderCheckbox(`${g} programs`, `gender_${g.replace(/\s+/g, '').toLowerCase()}`)
         )}
+        </div>
         <label className="block font-semibold mt-4 mb-1">Facility Type:</label>
+        <div className='flex flex-wrap gap-4 mb-2'>
         {[
           'Inpatient Treatment Center',
           'Outpatient Treatment Center',
@@ -96,6 +117,7 @@ const EOSStep = ({ data = {}, update, next, back }) => {
         ].map((type) =>
           renderCheckbox(type, `facility_${type.replace(/\s+/g, '').toLowerCase()}`)
         )}
+        </div>
         {renderInput('Other', 'facility_other')}
       </Section>
 
@@ -184,8 +206,8 @@ const EOSStep = ({ data = {}, update, next, back }) => {
       </Section>
 
       <div className="flex justify-between mt-6">
-        <button onClick={back} className="px-4 py-2 bg-gray-500 text-white rounded">Back</button>
-        <button onClick={next} className="px-4 py-2 bg-blue-600 text-white rounded">Next</button>
+        <button onClick={back} className="btn bg-[#262626] rounded-full text-[#C3FC68] font-bold cursor-pointer hover:bg-[#C3FC68] hover:text-[#262626] px-10 py-2 rounded mt-4 transition-all duration-300">Back</button>
+        <button onClick={next} className="btn bg-[#C3FC68] rounded-full text-[#262626] font-bold cursor-pointer hover:bg-[#262626] hover:text-[#C3FC68] px-10 py-2 rounded mt-4 transition-all duration-300">Next</button>
       </div>
     </div>
   );

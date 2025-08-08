@@ -1,15 +1,11 @@
 import React, { useState } from 'react';
-
+import Section from "@/components/Section";
 const CoreStep = ({ data = {}, update, next }) => {
   const [errors, setErrors] = useState({});
-  const [collapsed, setCollapsed] = useState({});
 
-  const toggleSection = (id) => {
-    setCollapsed(prev => ({ ...prev, [id]: !prev[id] }));
-  };
-
-  const handleChange = (e) => {
-    update({ [e.target.name]: e.target.value });
+ const handleChange = (e) => {
+    const { name, value } = e.target;
+    update({ ...data, [name]: value });
   };
 
   const validate = () => {
@@ -25,50 +21,50 @@ const CoreStep = ({ data = {}, update, next }) => {
     if (validate()) next();
   };
 
-  const Section = ({ id, title, children }) => (
-    <div className="mb-6 border border-gray-300 rounded p-4 bg-white/5">
-      <div
-        className="flex justify-between items-center cursor-pointer"
-        onClick={() => toggleSection(id)}
-      >
-        <h3 className="text-lg font-semibold">{title}</h3>
-        <span className="text-xl">{collapsed[id] ? '↓' : '↑'}</span>
-      </div>
-      {!collapsed[id] && <div className="mt-4 space-y-3">{children}</div>}
-    </div>
-  );
-
   return (
     <div>
       <h2 className="text-2xl font-bold mb-4">Core Facility Information</h2>
 
       <Section id="contact" title="1. Contact & Identity">
-        <div>
+        <div className='mb-4'>
+          <label className="block font-semibold mb-1">Facility/Company Name <span>*</span></label>
           <input
+            type='text'
             name="companyName"
-            placeholder="Facility/Company Name"
+            placeholder="Enter your Facility/Company Name"
             value={data.companyName || ''}
             onChange={handleChange}
             className="input border p-2 rounded w-full"
           />
           {errors.companyName && <p className="text-red-500">{errors.companyName}</p>}
         </div>
+        <div className='mb-4'>
+          <label className="block font-semibold mb-1">Legal Company Name</label>
         <input
+          type='text'
           name="legalName"
           placeholder="Legal Company Name"
           value={data.legalName || ''}
           onChange={handleChange}
           className="input border p-2 rounded w-full"
         />
+        </div>
+        <div className='mb-4'>
+          <label className="block font-semibold mb-1">Display Name for Marketing</label>
         <input
+          type='text'
           name="displayName"
           placeholder="Display Name for Marketing"
           value={data.displayName || ''}
           onChange={handleChange}
           className="input border p-2 rounded w-full"
         />
-        <div>
+        </div>
+
+        <div className="mb-4">
+          <label className="block font-semibold mb-1">Primary Contact Information <span>*</span></label>
           <input
+            type='text'
             name="primaryPhone"
             placeholder="Primary Phone"
             value={data.primaryPhone || ''}
@@ -77,8 +73,10 @@ const CoreStep = ({ data = {}, update, next }) => {
           />
           {errors.primaryPhone && <p className="text-red-500">{errors.primaryPhone}</p>}
         </div>
-        <div>
+        <div className='mb-4'>
+          <label className="block font-semibold mb-1">Primary Contact Email <span>*</span></label>
           <input
+            type='email'
             name="primaryEmail"
             placeholder="Primary Email"
             value={data.primaryEmail || ''}
@@ -87,37 +85,55 @@ const CoreStep = ({ data = {}, update, next }) => {
           />
           {errors.primaryEmail && <p className="text-red-500">{errors.primaryEmail}</p>}
         </div>
+        <div className='mb-4'>
+          <label className="block font-semibold mb-1">Website URL</label>
         <input
+          type='url'
           name="website"
           placeholder="Website URL"
           value={data.website || ''}
           onChange={handleChange}
           className="input border p-2 rounded w-full"
         />
+        </div>
       </Section>
 
       <Section id="location" title="2. Location Information">
+        <div className='mb-4'>
+        <label className="block font-semibold mb-1">Primary Business Address</label>
         <input
+          type="text"
           name="primaryAddress"
           placeholder="Primary Business Address"
           value={data.primaryAddress || ''}
           onChange={handleChange}
           className="input border p-2 rounded w-full"
         />
+        </div>
+        <div className='mb-4'>
+        <label className="block font-semibold mb-1">Additional Locations</label>
         <input
+          type="text"
           name="additionalLocations"
           placeholder="Additional Locations"
           value={data.additionalLocations || ''}
           onChange={handleChange}
           className="input border p-2 rounded w-full"
         />
+        </div>
+        <div className='mb-4'>
+        <label className="block font-semibold mb-1">Service Areas (cities/regions served)</label>
         <input
+          type="text"
           name="serviceAreas"
           placeholder="Service Areas (cities/regions served)"
           value={data.serviceAreas || ''}
           onChange={handleChange}
           className="input border p-2 rounded w-full"
         />
+        </div>
+        <div className='mb-4'>
+        <label className="block font-semibold mb-1">Service Radius (miles)</label>
         <input
           name="serviceRadius"
           placeholder="Service Radius (miles)"
@@ -126,10 +142,12 @@ const CoreStep = ({ data = {}, update, next }) => {
           onChange={handleChange}
           className="input border p-2 rounded w-full"
         />
+        </div>
       </Section>
 
       <Section id="google" title="3. Google Business Profile Integration">
         <input
+          type="url"
           name="googleProfileUrl"
           placeholder="Google Business Profile URL"
           value={data.googleProfileUrl || ''}
@@ -138,18 +156,18 @@ const CoreStep = ({ data = {}, update, next }) => {
         />
         <p className="text-sm text-gray-500">Entering a URL will auto-populate business details.</p>
         {data.googleProfileUrl && (
-          <div className="text-sm bg-gray-100 p-3 rounded mt-2">
-            <p>Verified Name: ABC Treatment Center</p>
-            <p>Rating: 4.8 stars (132 reviews)</p>
-            <p>Business Hours: Mon-Fri 9am-6pm</p>
-            <p>Phone: (555) 123-4567</p>
+          <div className="text-sm bg-gray-200 p-3 rounded mt-2">
+            <p className='text-[#000]'>Verified Name: ABC Treatment Center</p>
+            <p className='text-[#000]'>Rating: 4.8 stars (132 reviews)</p>
+            <p className='text-[#000]'>Business Hours: Mon-Fri 9am-6pm</p>
+            <p className='text-[#000]'>Phone: (555) 123-4567</p>
           </div>
         )}
       </Section>
 
       <button
         onClick={handleNext}
-        className="btn bg-blue-600 text-white px-4 py-2 rounded mt-4"
+        className="btn bg-[#C3FC68] rounded-full text-[#262626] font-bold cursor-pointer hover:bg-[#262626] hover:text-[#C3FC68] px-10 py-2 rounded mt-4 transition-all duration-300"
       >
         Next
       </button>
