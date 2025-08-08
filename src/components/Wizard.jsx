@@ -14,6 +14,7 @@ import ThemeToggle from '@/components/ThemeToggle';
 
 import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
+import ProjectManagementStep from './steps/ProjectManagementStep';
 
 const steps = [
   'Core',
@@ -21,7 +22,7 @@ const steps = [
   'Digital',
   'Technical',
   'Services',
-  'Landing Page',
+  'Project Management',
   'Review',
   'Success',
 ];
@@ -40,7 +41,7 @@ const Wizard = () => {
       soberLiving: false,
       adwords: false,
     },
-    landing: {},
+    project: {},
   });
 
   const updateFormData = (data) => {
@@ -84,7 +85,7 @@ const Wizard = () => {
         soberLiving: false,
         adwords: false,
       },
-      landing: {},
+      project: {},
     });
   };
 
@@ -166,13 +167,33 @@ const Wizard = () => {
         );
       case 5:
         return (
-          <LandingPageStep
-            data={formData.landing}
+          <ProjectManagementStep
+            data={formData.services}
             update={(data) =>
-              updateFormData({ landing: { ...formData.landing, ...data } })
+              updateFormData({ services: { ...formData.services, ...data } })
             }
             next={next}
             back={back}
+            renderExtras={() => (
+              <div className="mt-6 flex gap-4">
+                {formData.services?.soberLiving && (
+                  <button
+                    className="btn"
+                    onClick={() => router.push('/onboarding/sober-living')}
+                  >
+                    Proceed to Sober Living Form
+                  </button>
+                )}
+                {formData.services?.adwords && (
+                  <button
+                    className="btn"
+                    onClick={() => router.push('/onboarding/adwords')}
+                  >
+                    Proceed to AdWords Setup
+                  </button>
+                )}
+              </div>
+            )}
           />
         );
       case 6:
