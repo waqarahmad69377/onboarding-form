@@ -3,6 +3,7 @@
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+
 export default function Home() {
   return (
     <main className="min-h-screen flex items-center justify-center bg-[#262626] text-white px-4">
