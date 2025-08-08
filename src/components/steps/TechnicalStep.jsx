@@ -27,16 +27,16 @@ const TechnicalStep = ({ data = {}, update, next, back }) => {
 
   return (
     <div>
-      <h2 className="text-2xl font-bold mb-6">Technical Overview</h2>
+      <h2 className="text-2xl font-bold mb-6 text-[#969696]">Technical Overview</h2>
 
       {/* 1. Current Systems */}
       <Section id="currentSystem" title="1. Current Systems">
         <input
           name="domainProvider"
-          placeholder="Domain Provider"
+          placeholder="Domain Provider *"
           value={data.domainProvider || ''}
           onChange={handleChange}
-          className="input border p-2 rounded w-full"
+          className="input border-[#868686] focus:border-[#C3FC68]/80 outline-none border-[1px] p-2 rounded-lg w-full"
         />
         {errors.domainProvider && <p className="text-red-500 text-sm">{errors.domainProvider}</p>}
 
@@ -45,30 +45,42 @@ const TechnicalStep = ({ data = {}, update, next, back }) => {
           placeholder="Website Hosting"
           value={data.hosting || ''}
           onChange={handleChange}
-          className="input border p-2 rounded w-full"
+          className="input border-[#868686] focus:border-[#C3FC68]/80 outline-none border-[1px] p-2 rounded-lg w-full"
         />
 
         <div>
-          <label className="block font-semibold mb-1">Email System:</label>
+          <label className="block font-semibold mb-1 text-[#969696]">Email System:</label>
+          <div className='flex flex-row gap-2'>
           {['Gmail', 'Outlook', 'Other'].map((opt) => (
-            <label key={opt} className="mr-4">
-              <input
-                type="radio"
-                name="emailSystem"
-                value={opt}
-                checked={data.emailSystem === opt}
-                onChange={handleRadioChange}
-              />{' '}
-              {opt}
-            </label>
+            <div className="flex items-center gap-2 mb-2" key={opt}>
+              <label className="flex items-center cursor-pointer">
+                <input
+                  type="radio"
+                  name={"emailSystem"}
+                  value={opt}
+                  checked={data.emailSystem === opt}
+                  onChange={handleRadioChange}
+                  className="peer sr-only"
+                />{' '}
+                <span className="w-5 h-5 flex items-center justify-center border-2 border-[#969696] rounded-full transition-colors peer-checked:bg-[#C3FC68] peer-checked:border-[#C3FC68]">
+                  {data.emailSystem === opt && (
+                    <svg className="w-4 h-4 text-[#262626]" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                    </svg>
+                  )}
+                </span>
+                <span className="ml-2 text-[#969696]">{opt}</span>
+              </label>
+            </div>
           ))}
+          </div>
           {data.emailSystem === 'Other' && (
             <input
               name="emailSystemOther"
               placeholder="Specify Other"
               value={data.emailSystemOther || ''}
               onChange={handleChange}
-              className="input border p-2 rounded w-full mt-2"
+              className="input border-[#868686] focus:border-[#C3FC68]/80 outline-none border-[1px] p-2 rounded-lg w-full mt-2"
             />
           )}
         </div>
@@ -78,30 +90,42 @@ const TechnicalStep = ({ data = {}, update, next, back }) => {
           placeholder="Phone System"
           value={data.phoneSystem || ''}
           onChange={handleChange}
-          className="input border p-2 rounded w-full"
+          className="input border-[#868686] focus:border-[#C3FC68]/80 outline-none border-[1px] p-2 rounded-lg w-full"
         />
 
         <div>
-          <label className="block font-semibold mb-1">CRM System:</label>
+          <label className="block font-semibold mb-1 text-[#969696]">CRM System:</label>
+          <div className='flex flex-row gap-2'>
           {['Salesforce', 'HubSpot', 'Go High Level', 'None', 'Other'].map((opt) => (
-            <label key={opt} className="mr-4">
-              <input
-                type="radio"
-                name="crmSystem"
-                value={opt}
-                checked={data.crmSystem === opt}
-                onChange={handleRadioChange}
-              />{' '}
-              {opt}
-            </label>
+            <div className="flex items-center gap-2 mb-2" key={opt}>
+              <label className="flex items-center cursor-pointer">
+                <input
+                  type="radio"
+                  name={"crmSystem"}
+                  value={opt}
+                  checked={data.crmSystem === opt}
+                  onChange={handleRadioChange}
+                  className="peer sr-only"
+                />{' '}
+                <span className="w-5 h-5 flex items-center justify-center border-2 border-[#969696] rounded-full transition-colors peer-checked:bg-[#C3FC68] peer-checked:border-[#C3FC68]">
+                  {data.crmSystem === opt && (
+                    <svg className="w-4 h-4 text-[#262626]" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                    </svg>
+                  )}
+                </span>
+                <span className="ml-2 text-[#969696]">{opt}</span>
+              </label>
+            </div>
           ))}
+          </div>
           {data.crmSystem === 'Other' && (
             <input
               name="crmSystemOther"
               placeholder="Specify Other"
               value={data.crmSystemOther || ''}
               onChange={handleChange}
-              className="input border p-2 rounded w-full mt-2"
+              className="input border-[#868686] focus:border-[#C3FC68]/80 outline-none border-[1px] p-2 rounded-lg w-full mt-2"
             />
           )}
         </div>
@@ -113,19 +137,31 @@ const TechnicalStep = ({ data = {}, update, next, back }) => {
           const name = item.replace(/\s+/g, '').toLowerCase();
           return (
             <div key={item}>
-              <label className="block font-semibold mb-1">{item}:</label>
+              <label className="block font-semibold mb-1 text-[#969696]">{item}:</label>
+              <div className='flex flex-row gap-2'>
               {['Set up', 'Need setup', 'Need access'].map((status) => (
-                <label key={status} className="mr-4">
-                  <input
-                    type="radio"
-                    name={name}
-                    value={status}
-                    checked={data[name] === status}
-                    onChange={handleRadioChange}
-                  />{' '}
-                  {status}
-                </label>
+                <div className="flex items-center gap-2 mb-2" key={status}>
+                  <label className="flex items-center cursor-pointer">
+                    <input
+                      type="radio"
+                      name={name}
+                      value={status}
+                      checked={data[name] === status}
+                      onChange={handleRadioChange}
+                      className="peer sr-only"
+                    />{' '}
+                    <span className="w-5 h-5 flex items-center justify-center border-2 border-[#969696] rounded-full transition-colors peer-checked:bg-[#C3FC68] peer-checked:border-[#C3FC68]">
+                      {data[name] === status && (
+                        <svg className="w-4 h-4 text-[#262626]" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                        </svg>
+                      )}
+                    </span>
+                    <span className="ml-2 text-[#969696]">{status}</span>
+                  </label>
+                </div>
               ))}
+              </div>
             </div>
           );
         })}
@@ -143,19 +179,31 @@ const TechnicalStep = ({ data = {}, update, next, back }) => {
           const name = field.replace(/\s+/g, '').toLowerCase();
           return (
             <div key={name}>
-              <label className="block font-semibold mb-1">{field}:</label>
+              <label className="block font-semibold mb-1 text-[#969696]">{field}:</label>
+              <div className='flex flex-row gap-2'>
               {['Yes', 'No'].map((val) => (
-                <label key={val} className="mr-4">
-                  <input
-                    type="radio"
-                    name={name}
-                    value={val}
-                    checked={data[name] === val}
-                    onChange={handleRadioChange}
-                  />{' '}
-                  {val}
-                </label>
+                <div className="flex items-center gap-2 mb-2" key={val}>
+                  <label className="flex items-center cursor-pointer">
+                    <input
+                      type="radio"
+                      name={name}
+                      value={val}
+                      checked={data[name] === val}
+                      onChange={handleRadioChange}
+                      className="peer sr-only"
+                    />{' '}
+                    <span className="w-5 h-5 flex items-center justify-center border-2 border-[#969696] rounded-full transition-colors peer-checked:bg-[#C3FC68] peer-checked:border-[#C3FC68]">
+                      {data[name] === val && (
+                        <svg className="w-4 h-4 text-[#262626]" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                        </svg>
+                      )}
+                    </span>
+                    <span className="ml-2">{val}</span>
+                  </label>
+                </div>
               ))}
+              </div>
             </div>
           );
         })}

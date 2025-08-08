@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import Section from "@/components/Section";
-import { set } from 'react-hook-form';
 const EOSStep = ({ data = {}, update, next, back }) => {
   const [form, setForm] = useState(data || {});
   const [errors, setErrors] = useState({});
@@ -23,33 +22,33 @@ const EOSStep = ({ data = {}, update, next, back }) => {
 
   const renderInput = (label, name, type = 'text') => (
     <div className="mb-4">
-      <label className="block font-semibold mb-1">{label}</label>
+      <label className="block font-semibold mb-1 text-[#969696]">{label}</label>
       <input
         type={type}
         name={name}
         placeholder={"Enter "+label}
         value={form[name] || ''}
         onChange={handleChange}
-        className="w-full p-2 border rounded"
+        className="input border-[#868686] focus:border-[#C3FC68]/80 outline-none border-[1px] p-2 rounded-lg w-full"
       />
     </div>
   );
 
   const renderTextArea = (label, name) => (
     <div className="mb-4">
-      <label className="block font-semibold mb-1">{label}</label>
+      <label className="block font-semibold mb-1 text-[#969696]">{label}</label>
       <textarea
         name={name}
         value={form[name] || ''}
         placeholder='Enter your text here...'
         onChange={handleChange}
-        className="w-full p-2 border rounded"
+        className="border-[#868686] focus:border-[#C3FC68]/80 outline-none border-[1px] p-2 rounded-lg w-full"
         rows={3}
       />
     </div>
   );
 
-  const renderCheckbox = (label, name) => (
+  const RenderCheckbox = ({label, name}) => {return(
     <div className="flex items-center gap-2 mb-2">
       <label className="flex items-center cursor-pointer">
         <input
@@ -69,7 +68,7 @@ const EOSStep = ({ data = {}, update, next, back }) => {
         <span className="ml-2">{label}</span>
       </label>
     </div>
-  );
+  )};
 
   // valide the form before proceeding
   const handleNext = () => {
@@ -80,7 +79,7 @@ const EOSStep = ({ data = {}, update, next, back }) => {
 
   return (
     <div>
-      <h2 className="text-2xl font-bold mb-4">Executive Operating Summary</h2>
+      <h2 className="text-2xl font-bold mb-4 text-[#969696]">Executive Operating Summary</h2>
 
       <Section id="strategic" title="1. Strategic Positioning">
         {renderInput('Years in Operation', 'yearsInOperation')}
@@ -96,13 +95,15 @@ const EOSStep = ({ data = {}, update, next, back }) => {
         <label className="block font-semibold mt-2 mb-1">Age Ranges Served:</label>
         <div className='flex flex-wrap gap-4 mb-2'>
           {['Adolescents', 'Young Adults', 'Adults', 'Seniors'].map((age) =>
-            renderCheckbox(`${age}`, `age_${age.replace(/\s+/g, '').toLowerCase()}`)
+            // renderCheckbox(`${age}`, `age_${age.replace(/\s+/g, '').toLowerCase()}`)
+            <RenderCheckbox key={age} label={age} name={`age_${age.replace(/\s+/g, '').toLowerCase()}`} />
           )}
         </div>
         <label className="block font-semibold mt-4 mb-1">Gender Programs:</label>
         <div className='flex flex-wrap gap-4 mb-2'>
         {['Men-only', 'Women-only', 'Co-ed', 'LGBTQ+ specialized'].map((g) =>
-          renderCheckbox(`${g} programs`, `gender_${g.replace(/\s+/g, '').toLowerCase()}`)
+          // renderCheckbox(`${g} programs`, `gender_${g.replace(/\s+/g, '').toLowerCase()}`)
+          <RenderCheckbox key={g} label={g} name={`gender_${g.replace(/\s+/g, '').toLowerCase()}`} />
         )}
         </div>
         <label className="block font-semibold mt-4 mb-1">Facility Type:</label>
@@ -115,7 +116,8 @@ const EOSStep = ({ data = {}, update, next, back }) => {
           'Mental Health Facility',
           'Dual Diagnosis Center'
         ].map((type) =>
-          renderCheckbox(type, `facility_${type.replace(/\s+/g, '').toLowerCase()}`)
+          // renderCheckbox(type, `facility_${type.replace(/\s+/g, '').toLowerCase()}`)
+          <RenderCheckbox key={type} label={type} name={`facility_${type.replace(/\s+/g, '').toLowerCase()}`} />
         )}
         </div>
         {renderInput('Other', 'facility_other')}
@@ -172,9 +174,9 @@ const EOSStep = ({ data = {}, update, next, back }) => {
         {renderInput('Staff to Client Ratio', 'staffRatio')}
         {renderInput('Percent with Masters (%)', 'mastersPercent')}
         {renderInput('Average Years of Experience', 'experience')}
-        {renderCheckbox('Medical Director', 'hasMedicalDirector')}
+        <RenderCheckbox label="Medical Director" name="hasMedicalDirector" />
         {renderInput('Medical Director Name/Credentials', 'medicalDirectorName')}
-        {renderCheckbox('24/7 Medical Staff', 'hasMedicalStaff')}
+        <RenderCheckbox label="24/7 Medical Staff" name="hasMedicalStaff" />
       </Section>
 
       <Section id="competitors" title="10. Competitive Landscape">
@@ -198,7 +200,7 @@ const EOSStep = ({ data = {}, update, next, back }) => {
 
       <Section id="growth" title="12. Growth & Market Position">
         {renderInput('Market Share (%)', 'marketShare')}
-        {renderCheckbox('Typically Full with Waitlist', 'hasWaitlist')}
+        <RenderCheckbox label="Typically Full with Waitlist" name="hasWaitlist" />
         {renderInput('Bed Expansion Plan', 'growthBeds')}
         {renderInput('New Programs', 'growthPrograms')}
         {renderInput('New Services', 'growthServices')}

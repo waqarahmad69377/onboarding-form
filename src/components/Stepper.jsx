@@ -7,7 +7,7 @@ const Stepper = ({ currentStep, steps, goToStep, allowFuture = false }) => {
         const isActive = index === currentStep;
         const isClickable = allowFuture || index <= currentStep;
         return (
-          <div key={label} className="flex flex-col items-center space-y-1">
+          <div key={label} className="flex flex-col items-center space-y-1 w-20">
             <button
               onClick={() => isClickable && goToStep(index)}
               disabled={!isClickable}
@@ -22,7 +22,7 @@ const Stepper = ({ currentStep, steps, goToStep, allowFuture = false }) => {
             >
               {index + 1}
             </button>
-            <span className="text-xs text-center text-[#C3FC68] font-bold">{label}</span>
+            <span className="text-xs text-center text-[#C3FC68] font-bold text-wrap">{label}</span>
           </div>
         );
       })}

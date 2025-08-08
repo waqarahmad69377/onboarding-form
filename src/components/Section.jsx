@@ -21,7 +21,7 @@ const Section = ({ id, title, children }) => {
         className="flex justify-between items-center cursor-pointer"
         onClick={toggleSection}
       >
-        <h3 className="text-lg font-semibold">{title}</h3>
+        <h3 className="text-lg font-semibold text-[#969696]">{title}</h3>
         <span className={`text-xl ${isOpen ? "text-[#C3FC68]":""} `}>{isOpen ? '▲' : '▼'}</span>
       </div>
 
@@ -30,7 +30,7 @@ const Section = ({ id, title, children }) => {
         className="transition-all duration-500 ease-in-out overflow-hidden"
         style={{ maxHeight: height }}
       >
-        <div className="mt-4 space-y-3">
+        <div className="mt-4 space-y-3 px-2">
           {children}
         </div>
       </div>

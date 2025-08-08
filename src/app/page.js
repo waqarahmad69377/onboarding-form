@@ -13,15 +13,15 @@ export default function Home() {
           <Image
             src="/assets/images/brandnorth.webp"
             alt="Universal Treatment Facility Logo"
-            width={250}
-            height={250}
+            width={110}
+            height={110}
             className=""
           />
         </div>
         <h1 className="text-4xl font-bold">Universal Treatment Facility Wizard</h1>
         <p className="text-lg text-gray-200">Begin by selecting an onboarding path</p>
 
-        <div className="space-y-4 flex flex-row gap-4 justify-center">
+        <div className=" flex 3xl:flex-row 2xl:flex-row xl:flex-row lg:flex-row md:flex-col flex-col gap-4 justify-center">
           <Link
             href="/onboarding/core"
             className="block bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded transition"
