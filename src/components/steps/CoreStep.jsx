@@ -12,7 +12,11 @@ const CoreStep = ({ data = {}, update, next }) => {
     const newErrors = {};
     if (!data.companyName) newErrors.companyName = 'Facility name required';
     if (!data.primaryPhone) newErrors.primaryPhone = 'Phone required';
-    if (!data.primaryEmail) newErrors.primaryEmail = 'Email required';
+    if (!data.primaryEmail) {
+      newErrors.primaryEmail = 'Email required';
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.primaryEmail)) {
+      newErrors.primaryEmail = 'Enter a valid email address';
+    }
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
